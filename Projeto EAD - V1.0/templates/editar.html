@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Entregas - Complexo do Alemão</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">  <!-- Importa o CSS do Bootstrap. -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">  <!-- Importa os ícones do Bootstrap. -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Define a fonte Roboto como padrão */
+            background-color: #f8f9fa; /* Cor de fundo da página */
+            background-image: url('/static/images/fundo.jpg'); /* Caminho para a imagem de fundo */
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Não repete a imagem */
+            min-height: 100vh; /* Garante que o fundo cubra a altura da tela */
+        }
+        .form-container {
+            width: 400px;  /* Largura do container do formulário. */
+            padding: 20px;  /* Espaçamento interno. */
+            border: 1px solid #ced4da;  /* Borda do container. */
+            border-radius: 8px;  /* Bordas arredondadas. */
+            background-color: white;  /* Cor de fundo do formulário. */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  /* Sombra ao redor do formulário. */
+            margin: auto;  /* Centraliza o container. */
+            margin-top: 50px;  /* Margem superior. */
+            margin-bottom: 50px;  /* Margem inferior. */
+        }
+        .text-center img {
+            width: 200px;  /* Largura do logo. */
+            height: auto;  /* Mantém a proporção da imagem. */
+        }
+        .input-group {
+            position: relative;  /* Permite o posicionamento absoluto do ícone dentro do grupo de inputs. */
+            margin-bottom: 15px;  /* Margem inferior entre os grupos de inputs. */
+        }
+        .input-custom {
+            padding-left: 30px; /* Espaço para o ícone dentro do input. */
+            border-radius: 8px;  /* Bordas arredondadas para os inputs. */
+            border: 1px solid #ced4da;  /* Cor da borda dos inputs. */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Sombra nos inputs. */
+            transition: border-color 0.3s, box-shadow 0.3s;  /* Transição suave para efeitos de foco. */
+        }
+        .input-custom:focus {
+            border-color: #343a40;  /* Cor da borda ao focar. */
+            box-shadow: 0 0 5px rgba(52, 58, 64, 0.5);  /* Sombra ao focar. */
+            outline: none;  /* Remove o contorno padrão. */
+        }
+        .icon {
+            position: absolute;  /* Permite o posicionamento absoluto do ícone. */
+            left: 10px;  /* Posição do ícone a partir da esquerda. */
+            top: 50%;  /* Centraliza verticalmente o ícone. */
+            transform: translateY(-50%);  /* Ajusta a posição do ícone. */
+            pointer-events: none;  /* Permite que cliques passem pelo ícone. */
+        }
+        input[type="number"] {
+            -moz-appearance: textfield; /* Remove setas em campos de número no Firefox. */
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none; /* Remove setas em campos de número no Chrome e Safari. */
+            margin: 0; /* Remove a margem das setas. */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">  <!-- Container principal para o formulário. -->
+        <div class="text-center mb-3">  <!-- Alinhamento central para o logo. -->
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="img-fluid">  <!-- Exibe o logo. -->
+        </div>
+
+        <h2 class="text-center mb-4">Editar morador</h2>  <!-- Título da página de edição. -->
+
+        <form action="{{ url_for('editar', id=morador[0]) }}" method="POST">  <!-- Formulário que envia dados para a rota de edição. -->
+            <div class="form-group">  <!-- Grupo para o campo de nome. -->
+                <label for="nome"><i class="bi bi-person"></i> Nome:</label>  <!-- Label para o campo de nome. -->
+                <div class="input-group">  <!-- Grupo de input para o nome. -->
+                    <i class="bi bi-person icon"></i>  <!-- Ícone de pessoa. -->
+                    <input type="text" class="form-control input-custom" id="nome" name="nome" value="{{ morador[1] }}" required>  <!-- Campo de texto para nome com valor preenchido. -->
+                </div>
+            </div>
+            <div class="form-group">  <!-- Grupo para o campo de endereço. -->
+                <label for="endereco"><i class="bi bi-house"></i> Endereço:</label>  <!-- Label para o campo de endereço. -->
+                <div class="input-group">  <!-- Grupo de input para o endereço. -->
+                    <i class="bi bi-house icon"></i>  <!-- Ícone de casa. -->
+                    <input type="text" class="form-control input-custom" id="endereco" name="endereco" value="{{ morador[2] }}" required>  <!-- Campo de texto para endereço com valor preenchido. -->
+                </div>
+            </div>
+            <div class="form-group">  <!-- Grupo para o campo de idade. -->
+                <label for="idade"><i class="bi bi-calendar"></i> Idade:</label>  <!-- Label para o campo de idade. -->
+                <div class="input-group">  <!-- Grupo de input para a idade. -->
+                    <i class="bi bi-calendar icon"></i>  <!-- Ícone de calendário. -->
+                    <input type="number" class="form-control input-custom" id="idade" name="idade" value="{{ morador[3] }}" required>  <!-- Campo numérico para idade com valor preenchido. -->
+                </div>
+            </div>
+            <div class="form-group">  <!-- Grupo para o campo de telefone. -->
+                <label for="telefone"><i class="bi bi-telephone"></i> Telefone:</label>  <!-- Label para o campo de telefone. -->
+                <div class="input-group">  <!-- Grupo de input para telefone. -->
+                    <i class="bi bi-telephone icon"></i>  <!-- Ícone de telefone. -->
+                    <input type="text" class="form-control input-custom" id="telefone" name="telefone" value="{{ morador[4] }}" required>  <!-- Campo de texto para telefone com valor preenchido. -->
+                </div>
+            </div>
+            <button type="submit" class="btn btn-dark btn-block">Atualizar</button>  <!-- Botão para enviar o formulário. -->
+            <a href="{{ url_for('alterar') }}" class="btn btn-dark btn-block">Voltar para página inicial</a>  <!-- Botão para voltar à página de alterações. -->
+        </form>
+    </div>
+</body>
+</html>

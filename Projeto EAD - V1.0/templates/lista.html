@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Entregas - Complexo do Alemão</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Importa o Bootstrap para estilização -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"> <!-- Importa ícones do Bootstrap -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Define a fonte Roboto como padrão */
+            background-color: #f8f9fa; /* Cor de fundo da página */
+            background-image: url('static/images/fundo.jpg'); /* Imagem de fundo */
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Não repete a imagem */
+            min-height: 100vh; /* Garante que o fundo cubra a altura da tela */
+        }
+        .container {
+            margin-top: 30px; /* Espaço acima do contêiner */
+        }
+        .center-box {
+            padding: 20px; /* Espaçamento interno do contêiner */
+            border-radius: 8px; /* Bordas arredondadas do contêiner */
+            background-color: white; /* Cor de fundo do contêiner */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra do contêiner */
+            text-align: center; /* Centraliza o texto dentro do contêiner */
+            margin-bottom: 50px; /* Espaço abaixo do contêiner */
+        }
+        .input-custom {
+            border-radius: 8px; /* Bordas arredondadas dos inputs */
+            border: 1px solid #ced4da; /* Borda do input */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra do input */
+            transition: border-color 0.3s, box-shadow 0.3s; /* Efeitos de transição */
+        }
+        .input-custom:focus {
+            border-color: #343a40; /* Cor da borda ao focar */
+            box-shadow: 0 0 5px rgba(52, 58, 64, 0.5); /* Sombra ao focar */
+            outline: none; /* Remove a outline padrão */
+        }
+    </style>
+</head>
+<body>
+    <div class="container"> <!-- Contêiner principal -->
+        <div class="center-box"> <!-- Contêiner central para o conteúdo -->
+            <img src="{{ url_for('static', filename='images/logo.png') }}" style="width: 200px; height: auto;" alt="Logo" class="img-fluid"> <!-- Logo da aplicação -->
+            <h2 class="text-center mb-4">Consulta de moradores</h2> <!-- Título da seção -->
+            <form method="GET" action="{{ url_for('listar') }}" class="mb-4" id="searchForm"> <!-- Formulário de busca -->
+                <div class="mb-3 row">
+                    <div class="col">
+                        <select name="searchBy" id="searchBy" class="form-control"> <!-- Seleção de critério de busca -->
+                            <option value="nome" {% if search_by == 'nome' %}selected{% endif %}>Buscar por Nome</option>
+                            <option value="endereco" {% if search_by == 'endereco' %}selected{% endif %}>Buscar por Endereço</option>
+                            <option value="telefone" {% if search_by == 'telefone' %}selected{% endif %}>Buscar por Telefone</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div class="input-group"> <!-- Grupo de input para busca -->
+                            <input type="text" name="search" id="searchInput" placeholder="Busca" class="form-control input-custom" value="{{ search_query }}"> <!-- Campo de busca -->
+                            <div class="input-group-append">
+                                <button class="btn btn-dark" type="submit"> <!-- Botão de busca -->
+                                    <i class="bi bi-search"></i> <!-- Ícone de busca -->
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table table-bordered"> <!-- Tabela de resultados -->
+                <thead class="thead-dark"> <!-- Cabeçalho da tabela -->
+                    <tr>
+                        <th>Nome</th>
+                        <th>Endereço</th>
+                        <th>Idade</th>
+                        <th>Telefone</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"> <!-- Corpo da tabela -->
+                    {% for morador in moradores %}
+                        <tr>
+                            <td>{{ morador[1] }}</td> <!-- Nome do morador -->
+                            <td>{{ morador[2] }}</td> <!-- Endereço do morador -->
+                            <td>{{ morador[3] }}</td> <!-- Idade do morador -->
+                            <td>{{ morador[4] }}</td> <!-- Telefone do morador -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div id="noResults" class="alert alert-warning" style="display: {% if moradores|length == 0 %} block {% else %} none {% endif %};">Nenhum resultado encontrado.</div> <!-- Mensagem de nenhum resultado -->
+
+            <!-- Paginação -->
+            <div class="text-center mt-4">
+                {% if page > 1 %}
+                    <a href="{{ url_for('listar', page=page - 1, search=search_query, searchBy=search_by) }}" class="btn btn-dark">Página Anterior</a> <!-- Botão para página anterior -->
+                {% endif %}
+
+                {% for p in range(1, total_pages + 1) %}
+                    <a href="{{ url_for('listar', page=p, search=search_query, searchBy=search_by) }}" class="btn btn-outline-dark {{ 'active' if p == page else '' }}">{{ p }}</a> <!-- Botões de página -->
+                {% endfor %}
+
+                {% if page < total_pages %}
+                    <a href="{{ url_for('listar', page=page + 1, search=search_query, searchBy=search_by) }}" class="btn btn-dark">Próxima Página</a> <!-- Botão para próxima página -->
+                {% endif %}
+            </div>
+
+            <div class="mt-3">
+                <a href="{{ url_for('home') }}" class="btn btn-dark">Voltar para a Página Inicial</a> <!-- Botão para voltar à página inicial -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

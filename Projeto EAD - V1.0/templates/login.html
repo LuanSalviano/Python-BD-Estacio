@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Entregas - Complexo do Alemão</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Importa o Bootstrap para estilização -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"> <!-- Importa ícones do Bootstrap -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Define a fonte Roboto como padrão */
+            display: flex; /* Usa flexbox para centralizar o conteúdo */
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            height: 100vh; /* Define a altura como 100% da altura da viewport */
+            background-color: #f8f9fa; /* Cor de fundo da página */
+            background-image: url('static/images/fundo.jpg'); /* Imagem de fundo */
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Não repete a imagem */
+        }
+        .login-container {
+            width: 400px; /* Largura do contêiner de login */
+            padding: 20px; /* Espaçamento interno do contêiner */
+            border-radius: 8px; /* Bordas arredondadas do contêiner */
+            background-color: white; /* Cor de fundo do contêiner */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra do contêiner */
+            text-align: center; /* Centraliza o texto dentro do contêiner */
+        }
+        .login-container img {
+            width: 50px; /* Largura da imagem do logo */
+            margin-bottom: 20px; /* Espaço abaixo da imagem */
+        }
+        .login-container h2 {
+            margin-bottom: 20px; /* Espaço abaixo do título */
+            font-size: 18px; /* Tamanho da fonte do título */
+            color: #343a40; /* Cor do texto do título */
+        }
+        .form-group label {
+            float: left; /* Faz o rótulo flutuar à esquerda */
+        }
+        .alert {
+            text-align: left; /* Alinha o texto da mensagem de alerta à esquerda */
+            font-size: 14px; /* Tamanho da fonte da mensagem de alerta */
+        }
+        .btn-dark {
+            background-color: #343a40; /* Cor de fundo do botão */
+            border-color: #343a40; /* Cor da borda do botão */
+        }
+        .input-group {
+            position: relative; /* Define posição relativa para o grupo de input */
+        }
+        .input-group .icon {
+            position: absolute; /* Define posição absoluta para o ícone */
+            left: 10px; /* Posição do ícone à esquerda */
+            top: 50%; /* Centraliza verticalmente */
+            transform: translateY(-50%); /* Ajusta a posição do ícone */
+            pointer-events: none; /* Permite que o clique passe pelo ícone */
+            color: #343a40; /* Cor do ícone */
+        }
+        .input-custom {
+            padding-left: 30px; /* Espaço para o ícone no campo de input */
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container"> <!-- Contêiner principal de login -->
+        <img src="{{ url_for('static', filename='images/logo.png') }}" style="width: 200px; height: auto;" alt="Logo" class="img-fluid"> <!-- Logo da aplicação -->
+
+        <h2>Área de Login</h2> <!-- Título da seção de login -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %} <!-- Verifica se há mensagens a serem exibidas -->
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div> <!-- Exibe mensagens de alerta -->
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}"> <!-- Formulário de login -->
+            <div class="form-group"> <!-- Grupo para o campo de usuário -->
+                <label for="usuario"><i class="bi bi-person"></i> Usuário</label> <!-- Rótulo do campo -->
+                <div class="input-group"> <!-- Grupo de input para o usuário -->
+                    <i class="bi bi-person icon"></i> <!-- Ícone do usuário -->
+                    <input type="text" class="form-control input-custom" id="usuario" name="usuario" required> <!-- Campo de input para usuário -->
+                </div>
+            </div>
+
+            <div class="form-group"> <!-- Grupo para o campo de senha -->
+                <label for="senha"><i class="bi bi-lock"></i> Senha</label> <!-- Rótulo do campo -->
+                <div class="input-group"> <!-- Grupo de input para a senha -->
+                    <i class="bi bi-lock icon"></i> <!-- Ícone de senha -->
+                    <input type="password" class="form-control input-custom" id="senha" name="senha" required> <!-- Campo de input para senha -->
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-dark btn-block">Entrar</button> <!-- Botão de submit para entrar -->
+        </form>
+    </div>
+
+</body>
+</html>

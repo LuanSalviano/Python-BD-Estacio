@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Entregas - Complexo do Alemão</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Importa o Bootstrap para estilização -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Importa os ícones do Font Awesome -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Define a fonte Roboto como padrão */
+            display: flex; /* Usa flexbox para centralizar o conteúdo */
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            height: 100vh; /* Define a altura como 100% da altura da viewport */
+            background-color: #f8f9fa; /* Define a cor de fundo da página */
+            margin: 0; /* Remove margens padrão do body */
+            background-image: url('static/images/fundo.jpg'); /* Caminho para a imagem de fundo */
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Não repete a imagem */
+        }
+        .center-box {
+            width: 400px; /* Largura do contêiner central */
+            padding: 20px; /* Espaçamento interno do contêiner */
+            border-radius: 8px; /* Bordas arredondadas do contêiner */
+            background-color: white; /* Cor de fundo do contêiner */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra do contêiner */
+            text-align: center; /* Centraliza o texto dentro do contêiner */
+        }
+        .center-box img {
+            width: 100px; /* Largura da imagem do logo */
+            margin-bottom: 20px; /* Espaço abaixo da imagem */
+        }
+        .btn-dark {
+            width: 100%; /* Botões ocupam 100% da largura do contêiner */
+            margin-bottom: 10px; /* Espaço abaixo dos botões */
+        }
+        .btn-outline-danger {
+            width: 100%; /* Botão de logout ocupa 100% da largura do contêiner */
+        }
+        .alert {
+            text-align: left; /* Alinha o texto da mensagem de alerta à esquerda */
+            font-size: 14px; /* Tamanho da fonte da mensagem de alerta */
+        }
+    </style>
+</head>
+<body>
+    <div class="center-box"> <!-- Contêiner central para o conteúdo -->
+        <!-- Exibe mensagens flash, como mensagens de sucesso ou erro -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div> <!-- Mensagem de alerta com categoria -->
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Logo -->
+        <div class="text-center mb-3">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" style="width: 200px; height: auto;" alt="Logo" class="img-fluid"> <!-- Logo da aplicação -->
+            <h2 class="text-center mb-4">Menu</h2> <!-- Título da seção -->
+        </div>
+
+        <!-- Botões de navegação -->
+        <a class="btn btn-dark" href="{{ url_for('cadastro') }}">Cadastramento</a> <!-- Botão para cadastramento -->
+        <a class="btn btn-dark" href="{{ url_for('listar') }}">Consulta</a> <!-- Botão para consulta -->
+        <a class="btn btn-dark" href="{{ url_for('alterar') }}">Alteração de informações</a> <!-- Botão para alteração -->
+
+        <!-- Botão para logout -->
+        <form action="{{ url_for('logout') }}" method="POST"> <!-- Define o método POST para logout -->
+            <button class="btn btn-outline-danger" type="submit"><i class="fas fa-sign-out-alt"></i>Logout</button> <!-- Botão para enviar o formulário de logout -->
+        </form>
+    </div>
+</body>
+</html>
